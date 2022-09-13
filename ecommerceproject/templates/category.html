@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+    {% if category %}
+      {{ category.description|truncatewords:155 }}
+    {% else %}
+       Welcome to abroz store
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+      {{ category.name }}
+    {% else %}
+       our products
+    {% endif %}
+{% endblock %}
+{% block content %}
+{% if category %}
+  <div>
+      <div>
+        <p><a href="{% url 'ecommerceapp:allprodcat' %}">our product collections </a></p>
+
+     </div>
+  </div>
+  {% endif %}
+{% if category %}
+  <div class="my_catima">
+    <img src="{{ category.image.url }}" alt="{{ category.name }}" width="1120px" height="550px">
+  </div>
+  <br>
+ <div>
+     <h1 class="text-center my_title">{{ category.name }}</h1>
+     <p class="text-justify">{{ category.description }}</p>
+ </div>
+{% else %}
+<div>
+     <img src="{% static  'img/banner.jpg' %}" alt="our products" width="1120px">
+</div>
+<br>
+<div>
+    <h1 class="text-center my_title"> our product collections </h1>
+    <p class="text-justify"> its our product collections .you can purchase anytime,anywhere you want.high quality products at reasonable price you cant find it anywhere else.its our unique and exclusive collections its made with heavy quality materials nad its very special and also lot  of collection are here so you wont have to go anywhere if you visit our online store</p>
+</div>
+{% endif %}
+<div class="container">
+    <div class="row mx_auto">
+
+        {% for product in products.object_list %}
+      <div class="col-md-4">
+           <div class="shadow card" style="width:18rem;" >
+               <div class="card-body"></div>
+               <a href="{{ product.get_url }}"><img class="card-image-top" src="{{ product.image.url }}" alt="{{ product.name }}" width="285px" height="350px"></a>
+           <div>
+             <h4 class="card-title text-center my_pname">{{ product.name }}</h4>
+             <p class="card-title text-center">{{ product.price }}</p>
+           </div>
+           </div>
+      </div>
+
+          {% endfor %}
+    </div>
+    <div class="mx-auto">
+        {% if products.paginator.num_pages > 1 %}
+
+        <hr>
+        <div class="text-center">
+            {% for pg in products.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+</div>
+
+
+ {% endblock %}
