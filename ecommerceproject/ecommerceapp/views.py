@@ -8,6 +8,10 @@ from django.core.paginator import Paginator,EmptyPage,InvalidPage
 # def index(request):
 #     return render(request,'show.html')
 
+def demo(request):
+    return render(request, "category.html")
+
+
 def allprodcat(request,c_slug=None):
     c_page=None
     products_list=None
@@ -16,7 +20,7 @@ def allprodcat(request,c_slug=None):
         products_list=Product.objects.all().filter(category=c_page,available=True)
     else:
         products_list=Product.objects.all().filter(available=True)
-    paginator=Paginator(products_list,6)
+    paginator=Paginator(products_list,3)
     try:
         page=int(request.GET.get('page','1'))
     except:
